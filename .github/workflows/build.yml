@@ -1,0 +1,26 @@
+name: Build package and push into PPA
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  everything:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build package
+        run: |
+          set -xeu
+
+          docker run \
+            --rm \
+            -v $PWD:/build \
+            -w /build \
+            ubuntu:20.10 \
+            bash build.sh
+
+          ls -la

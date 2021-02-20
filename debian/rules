@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	cargo clean
+
+override_dh_auto_build:
+	cargo build --release
+
+override_dh_auto_install:
+	install -Dm04755 "target/release/alacritty" "debian/alacritty/usr/bin/alacritty"
+	install -Dm0644 "extra/logo/alacritty-term.svg" "debian/alacritty/usr/share/pixmaps/com.alacritty.Alacritty.svg"
+	install -Dm0644 "extra/linux/Alacritty.desktop" "debian/alacritty/usr/share/applications/com.alacritty.Alacritty.desktop"
+	sed -i 's/Icon=Alacritty/Icon=com.alacritty.Alacritty/g' "debian/alacritty/usr/share/applications/com.alacritty.Alacritty.desktop"
+
