@@ -11,6 +11,7 @@ apt-get update && apt-get install -yq \
     debhelper \
     devscripts \
     equivs \
+    piuparts \
     wget \
     curl
 
@@ -20,7 +21,8 @@ export CARGO_HOME=${BASEDIR}/.cargo
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y --no-modify-path
 
 # Get app version from the changelog
-VERSION=$(dpkg-parsechangelog --show-field Version | sed -e "s/-[1-9][0-9]*$//g")
+DEB_VERSION=$(dpkg-parsechangelog --show-field Version)
+VERSION=$(echo ${DEB_VERSION} | sed -e "s/-[1-9][0-9]*$//g")
 
 # Download source code
 SOURCE_FILE_NAME="alacritty_${VERSION}.orig.tar.gz"
@@ -63,3 +65,5 @@ debuild --prepend-path="${CARGO_HOME}/bin" \
     --unsigned-changes \
     --build-profiles=${IGNORE_CARGO_DEPS_PROFILE_NAME}
 
+# Test the package using piuparts
+piuparts "${BASEDIR}/alacritty_${DEB_VERSION}_$(dpkg-architecture -q DEB_TARGET_ARCH).deb"
