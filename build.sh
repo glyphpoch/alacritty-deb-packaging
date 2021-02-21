@@ -4,8 +4,9 @@ set -xue
 
 BASEDIR=${PWD}
 
-# Install basic dependencies for downloading the source code and building a dev package
-apt update && apt install -y \
+# Install basic dependencies for downloading the source code and building a dev packagea
+export DEBIAN_FRONTEND=noninteractive
+apt-get update && apt-get install -yq \
     build-essential \
     debhelper \
     devscripts \
@@ -16,7 +17,7 @@ apt update && apt install -y \
 # Install Rust & Cargo
 export RUSTUP_HOME=${BASEDIR}/.rust
 export CARGO_HOME=${BASEDIR}/.cargo
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -qy --no-modify-path
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y --no-modify-path
 
 # Get app version from the changelog
 VERSION=$(dpkg-parsechangelog --show-field Version | sed -e "s/-[1-9][0-9]*$//g")
@@ -45,14 +46,20 @@ IGNORE_CARGO_DEPS_PROFILE_NAME=nocheck
 # and rustc, name of the build profile can be anything - it just needs to
 # match whatever profile `cargo` and `rustc` are to be ignored for in the
 # `Build-Depends` in `debian/control`
-mk-build-deps -i -r ${SOURCE_DIR}/debian/control --build-profiles=${IGNORE_CARGO_DEPS_PROFILE_NAME}
+mk-build-deps \
+    -t 'apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -qqy' \
+    -i \
+    -r \
+    ${BASEDIR}/${SOURCE_DIR}/debian/control \
+    --build-profiles=${IGNORE_CARGO_DEPS_PROFILE_NAME}
 
 # Don't want to sign the package at the moment and also don't want to fail
 # on the build-deps check because we're installing cargo manually.
+cd ${BASEDIR}/${SOURCE_DIR}
 debuild --prepend-path="${CARGO_HOME}/bin" \
     -eCARGO_HOME \
     -eRUSTUP_HOME \
     --unsigned-source \
     --unsigned-changes \
-    --build-profiles=${IGNORE_CARG_DEPS_PROFILE_NAME}
+    --build-profiles=${IGNORE_CARGO_DEPS_PROFILE_NAME}
 
