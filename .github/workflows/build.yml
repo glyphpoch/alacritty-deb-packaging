@@ -27,7 +27,7 @@ jobs:
 
           echo "DEB_PKG_PATH=${PWD}/output/$(ls ${PWD}/output)" >> $GITHUB_ENV
           echo "DEB_PKG_NAME=$(ls ${PWD}/output)" >> $GITHUB_ENV
-
+          echo "DEB_PKG_VERSION=$(cat ${PWD}/gh_version_info)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -35,8 +35,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ env.DEB_PKG_VERSION }}
+          release_name: Release ${{ env.DEB_PKG_VERSION }}
           draft: false
           prerelease: false
 

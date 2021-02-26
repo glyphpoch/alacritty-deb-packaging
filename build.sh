@@ -75,3 +75,5 @@ piuparts -t /piutmp ${ALACRITTY_DEB_PATH}
 mkdir -p ${BASEDIR}/output/
 mv ${ALACRITTY_DEB_PATH} ${BASEDIR}/output/
 
+# ...and write version information somewhere where the GitHub Actions job will be able to access them
+echo -n "${DEB_VERSION}" > ${BASEDIR}/gh_version_info
