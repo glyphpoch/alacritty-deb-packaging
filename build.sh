@@ -72,6 +72,6 @@ ALACRITTY_DEB_PATH="${BASEDIR}/alacritty_${DEB_VERSION}_$(dpkg-architecture -q D
 piuparts -t /piutmp ${ALACRITTY_DEB_PATH}
 
 # Finally copy the output debian package into a separate folder
-mkdir -p ${BASE_DIR}/output/
-mv ${ALACRITTY_DEB_PATH} ${BASE_DIR}/output/
+mkdir -p ${BASEDIR}/output/
+mv ${ALACRITTY_DEB_PATH} ${BASEDIR}/output/
 
