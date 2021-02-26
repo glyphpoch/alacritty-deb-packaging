@@ -11,7 +11,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	mkdir -p debian/alacritty/usr/share/man/man1/
-	gzip "extra/alacritty.man" > "debian/alacritty/usr/share/man/man1/alacritty.1.gz"
+	gzip "extra/alacritty.man" -c > "debian/alacritty/usr/share/man/man1/alacritty.1.gz"
 	install -Dm04755 "target/release/alacritty" "debian/alacritty/usr/bin/alacritty"
 	install -Dm0644 "extra/completions/alacritty.bash" "debian/alacritty/usr/share/bash-completion/completions/alacritty"
 	install -Dm0644 "extra/completions/alacritty.fish" "debian/alacritty/usr/share/fish/vendor_completions.d/alacritty.fish"

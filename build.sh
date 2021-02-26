@@ -65,5 +65,13 @@ debuild --prepend-path="${CARGO_HOME}/bin" \
     --unsigned-changes \
     --build-profiles=${IGNORE_CARGO_DEPS_PROFILE_NAME}
 
+# Construct the full path to the built debian package
+ALACRITTY_DEB_PATH="${BASEDIR}/alacritty_${DEB_VERSION}_$(dpkg-architecture -q DEB_TARGET_ARCH).deb"
+
 # Test the package using piuparts
-piuparts "${BASEDIR}/alacritty_${DEB_VERSION}_$(dpkg-architecture -q DEB_TARGET_ARCH).deb"
+piuparts -t /piutmp ${ALACRITTY_DEB_PATH}
+
+# Finally copy the output debian package into a separate folder
+mkdir -p ${BASE_DIR}/output/
+mv ${ALACRITTY_DEB_PATH} ${BASE_DIR}/output/
+
