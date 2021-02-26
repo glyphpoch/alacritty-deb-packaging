@@ -1,6 +1,5 @@
 alacritty (0.7.2-1) groovy; urgency=low
 
-  [ glyphpoch ]
   * Initial release.
 
  -- glyphpoch <glyphpoch@gmail.com>  Sun, 21 Feb 2021 22:59:37 +0000
