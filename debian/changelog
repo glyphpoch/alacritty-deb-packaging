@@ -1,3 +1,9 @@
+alacritty (0.8.0-1) hirsute; urgency=low
+
+  * Update to version 0.8.0 
+
+ -- glyphpoch <glyphpoch@gmail.com>  Mon, 02 Aug 2021 22:11:32 +0100
+
 alacritty (0.7.2-1) groovy; urgency=low
 
   * Initial release.

@@ -22,7 +22,7 @@ jobs:
             --tmpfs /piutmp:exec,dev,rw \
             -v $PWD:/build \
             -w /build \
-            ubuntu:20.10 \
+            ubuntu:21.04 \
             bash build.sh
 
           echo "DEB_PKG_PATH=${PWD}/output/$(ls ${PWD}/output)" >> $GITHUB_ENV
